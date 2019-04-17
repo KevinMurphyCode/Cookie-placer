@@ -1,0 +1,86 @@
+"""Code by Kevin Murphy for senior capstone project 2019 please be patient the projects focus is mechanical design and assembly. """
+import sys
+#import csv #future feature may be redundant import
+
+sys.stdout = open('cookie.gcode', 'w') #creates machine code ready to upload. 
+
+x = 0 #int for 'x+1' for relative positioning
+y = 0
+z = 0
+
+
+"""the section bellow is intended for manual entry of xy data points. In the future data points should be loaded in from external source.
+ uncomment each value as needed"""
+POS_1  = 'X10 Y10'
+POS_2  = 'X15 Y10'
+# POS_3  = 'x y'
+# POS_4  = 'x y'
+# POS_5  = 'x y'
+# POS_6  = 'x y'
+# POS_7  = 'x y'
+# POS_8  = 'x y'
+# POS_9  = 'x y'
+# POS_10 = 'x y'
+# More_XY_Values = True
+
+
+#following variables insert x and y tray locations by color.
+Red = "X0 Y0"
+Orange = 'X5 Y0'
+Yellow = 'X10 Y0'
+Green = 'X15 Y0 '
+Blue = 'X20 Y0 '
+Brown = 'X25 Y0' #I am personally offended that the last color is brown not purple in m&ms-kevin
+
+Lower ='Z -5 P1500'
+Raise = 'Z5 '
+Pnumatic_On = 'M106 S60 P1000'
+Pnumatic_Off = 'M106 S0 P1000'
+
+
+
+def define_home(): #on startup or failure trigger this program runs to re-calibrate x and y and flow values
+    print('M82')#this allows the extruder to have relative values good for flow
+    print('G90')#this allows for positioning to be absolute.
+    print('F750') #sets flowrate to 750mm per minute
+
+def position():
+    print('G28 X Y')  # this command will tell the machine to home x and y axis to 0,0
+    print('G1' 'POS_1')  # g1 tells the machine that the following x and y values will be linear
+    # print('g1' px+1 py+1) #place holder in future read points from array and and advance to next value each time function paste run
+
+def pasted(): #The following will enable the machine to lay down a single blip of paste.
+   print(Lower)#rotates clockwise 5mm lowering hydraulics
+   print( 'E5' ) #advances hydraulic motor
+   print(Raise)
+
+def get_color(): #end goal is to get input data on color then move the pickup tool to the coresponding location for pickup
+    print('G1' + Red) #in the future this value should be predetermined from external input
+    print('z-5')#motor moves counter clockwise
+    print(Pnumatic_On)
+    print('z+5') #raises chip
+
+def drop_the_chip(): #lowers pnumatics relases part then raises
+    print('z-5')
+    print(Pnumatic_Off)
+    print('z+5')
+
+define_home()
+
+#while More_XY_Values = true
+def pick_and_place():
+    position()
+    pasted()
+    get_color()
+    position()
+    drop_the_chip()
+
+pick_and_place()
+
+#XPOS +1
+#YPOS +1
+# insert a way to tell if if there are any more valuse and if not set More_XY_Values to false
+# if More_XY_Values = false then terminate loop
+
+define_home()#should run at end of program to get ready for next run
+print('M84') # disable motors

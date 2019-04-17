@@ -67,14 +67,15 @@ def drop_the_chip(): #lowers pnumatics relases part then raises
 
 define_home()
 
-#while More_XY_Values = true
+
 def pick_and_place():
     position()
     pasted()
     get_color()
     position()
     drop_the_chip()
-
+    
+#while More_XY_Values = true
 pick_and_place()
 
 #XPOS +1

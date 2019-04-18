@@ -85,3 +85,6 @@ pick_and_place()
 
 define_home()#should run at end of program to get ready for next run
 print('M84') # disable motors
+
+#closes log/gcode file
+sys.stdout.close()

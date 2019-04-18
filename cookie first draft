@@ -2,6 +2,9 @@
 import sys
 #import csv #future feature may be redundant import
 
+#stores original stdout
+temp = sys.stdout
+
 sys.stdout = open('cookie.gcode', 'w') #creates machine code ready to upload. 
 
 x = 0 #int for 'x+1' for relative positioning
@@ -88,3 +91,6 @@ print('M84') # disable motors
 
 #closes log/gcode file
 sys.stdout.close()
+
+#restore print to console
+sys.stdout = temp

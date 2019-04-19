@@ -23,6 +23,9 @@ POS_2  = 'X15 Y10'
 # POS_10 = 'x y'
 # More_XY_Values = True
 
+#current positions displayed for while loop 
+positions = [POS_1, POS_2]
+i = 0 
 
 #following variables insert x and y tray locations by color.
 Red = "X0 Y0"
@@ -46,7 +49,7 @@ def define_home(): #on startup or failure trigger this program runs to re-calibr
 
 def position():
     print('G28 X Y')  # this command will tell the machine to home x and y axis to 0,0
-    print('G1' 'POS_1')  # g1 tells the machine that the following x and y values will be linear
+    print('G1', positions[i])  # g1 tells the machine that the following x and y values will be linear
     # print('g1' px+1 py+1) #place holder in future read points from array and and advance to next value each time function paste run
 
 def pasted(): #The following will enable the machine to lay down a single blip of paste.
@@ -74,9 +77,11 @@ def pick_and_place():
     get_color()
     position()
     drop_the_chip()
-    
-#while More_XY_Values = true
-pick_and_place()
+
+#continues until no more position values or XY_Values - Joselin   
+while i < len(positions):
+    pick_and_place()
+    i += 1
 
 #XPOS +1
 #YPOS +1
